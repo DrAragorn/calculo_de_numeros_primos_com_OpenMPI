@@ -1,0 +1,1 @@
+# calculo_de_numeros_primos_com_OpenMPI
