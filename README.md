@@ -45,13 +45,15 @@ Avisos da professora:
     * Corrigir erro de quando não há trabalho para todas as threads.
 
 
+Documentação: https://drive.google.com/drive/folders/1mvYeigoUfU_j5NoQ0EBqGK-It9VbMfO8?usp=sharing
+
 
 Tarefas a fazer:
 
 * Desenvolver os programas:
     - Programas com _naive_:
-        * MPI_Send + MPI_Recv;
-        * MPI_Send + MPI_Irecv;
+        * MPI_Send + MPI_Recv; [✓]
+        * MPI_Send + MPI_Irecv; [**Thiago - fazendo**]
         * MPI_Isend + MPI_Recv;
         * MPI_Isend + MPI_Irecv;
         * MPI_Rsend + MPI_Recv;
@@ -70,7 +72,7 @@ Tarefas a fazer:
         * MPI_Bsend + MPI_Irecv;
         * MPI_Ssend + MPI_Recv;
         * MPI_Ssend + MPI_Irecv.
-* Realizar os 19 casos testes;
+* Realizar os 19 casos testes, e coletar informações;
 * Escrever relatório:
     - Introdução;
     - Metodologia;
