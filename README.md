@@ -12,7 +12,7 @@ Tecnologias: OpenMPI.
 
 Descrição do trabalho:
 
-    Execute os dois programas de Cálculo de Números Primos (Naive e Bag of Tasks), usando as seguintes instruções de comunicação de envio ponto-a- ponto:
+    Execute os dois programas de Cálculo de Números Primos (Naive e Bag of Tasks), usando as seguintes instruções de comunicação de envio ponto-a-ponto:
 
     MPI_Send
     MPI_Isend
@@ -35,11 +35,28 @@ Descrição do trabalho:
 
 Avisos da professora:
 
-* Usar o mpi_primos.c do repositório das aulas;
-* Trocar o MPI_Reduce por "um monte" de send e receive:
-* Corrigir o código mpi_primos.c, porque ele está originalmente com bugs:
-* Otimizar o código no geral;
-* Para cálculo dos primos:
-    - Pular números pares, porque não tem como serem primos;
-    - Dividir o grupo de números ímpares de uma sequência para uma thread testar se há números primos, a sequência seguinte irá para outro thread testar, e assim em diante até o final.
-* Corrigir erro de quando não há trabalho para todas as threads.
+    * Usar o mpi_primos.c do repositório das aulas;
+    * Trocar o MPI_Reduce por "um monte" de send e receive:
+    * Corrigir o código mpi_primos.c, porque ele está originalmente com bugs:
+    * Otimizar o código no geral;
+    * Para cálculo dos primos:
+        - Pular números pares, porque não tem como serem primos;
+        - Dividir o grupo de números ímpares de uma sequência para uma thread testar se há números primos, a sequência seguinte irá para outro thread testar, e assim em diante até o final.
+    * Corrigir erro de quando não há trabalho para todas as threads.
+
+
+
+Tarefas a fazer:
+
+* Desenvolver os programas: [Thiago - fazendo]
+    - Programa com _naive_;
+    - Programa com _bag os tasks_.
+* Escrever relatório:
+    - Introdução;
+    - Metodologia;
+    - Desenvolvimento:
+        * Caso _naive_;
+        * Caso _bag of tasks_.
+    - Conclusão.
+* Montar slides da apresentação;
+* Estar todos membros do grupo cientes de tudo do trabalho, para caso seja sorteado.
