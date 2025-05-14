@@ -48,15 +48,35 @@ Avisos da professora:
 
 Tarefas a fazer:
 
-* Desenvolver os programas: [Thiago - fazendo]
-    - Programa com _naive_;
-    - Programa com _bag os tasks_.
+* Desenvolver os programas:
+    - Programas com _naive_:
+        * MPI_Send + MPI_Recv;
+        * MPI_Send + MPI_Irecv;
+        * MPI_Isend + MPI_Recv;
+        * MPI_Isend + MPI_Irecv;
+        * MPI_Rsend + MPI_Recv;
+        * MPI_Rsend + MPI_Irecv;
+        * MPI_Bsend + MPI_Recv;
+        * MPI_Bsend + MPI_Irecv;
+        * MPI_Ssend + MPI_Recv;
+        * MPI_Ssend + MPI_Irecv.
+    - Programas com _bag os tasks_:
+        * MPI_Send + MPI_Recv;
+        * MPI_Send + MPI_Irecv;
+        * MPI_Isend + MPI_Recv;
+        * MPI_Isend + MPI_Irecv;
+        * MPI_Rsend + MPI_Recv;
+        * MPI_Bsend + MPI_Recv;
+        * MPI_Bsend + MPI_Irecv;
+        * MPI_Ssend + MPI_Recv;
+        * MPI_Ssend + MPI_Irecv.
+* Realizar os 19 casos testes;
 * Escrever relatório:
     - Introdução;
     - Metodologia;
     - Desenvolvimento:
-        * Caso _naive_;
-        * Caso _bag of tasks_.
+        * Casos _naive_;
+        * Casos _bag of tasks_.
     - Conclusão.
 * Montar slides da apresentação;
 * Estar todos membros do grupo cientes de tudo do trabalho, para caso seja sorteado.
