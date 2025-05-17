@@ -53,15 +53,15 @@ Tarefas a fazer:
 * Desenvolver os programas:
     - Programas com _naive_:
         * MPI_Send + MPI_Recv; [✓]
-        * MPI_Send + MPI_Irecv; [**Thiago - fazendo**]
-        * MPI_Isend + MPI_Recv;
-        * MPI_Isend + MPI_Irecv;
-        * MPI_Rsend + MPI_Recv;
-        * MPI_Rsend + MPI_Irecv;
-        * MPI_Bsend + MPI_Recv;
-        * MPI_Bsend + MPI_Irecv;
-        * MPI_Ssend + MPI_Recv;
-        * MPI_Ssend + MPI_Irecv.
+        * MPI_Send + MPI_Irecv; [✓]
+        * MPI_Isend + MPI_Recv; [✓]
+        * MPI_Isend + MPI_Irecv; [✓]
+        * MPI_Rsend + MPI_Recv; [✓]
+        * MPI_Rsend + MPI_Irecv; [✓]
+        * MPI_Bsend + MPI_Recv; [✓]
+        * MPI_Bsend + MPI_Irecv; [✓]
+        * MPI_Ssend + MPI_Recv; [✓]
+        * MPI_Ssend + MPI_Irecv; [✓]
     - Programas com _bag os tasks_:
         * MPI_Send + MPI_Recv;
         * MPI_Send + MPI_Irecv;
