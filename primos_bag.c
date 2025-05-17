@@ -71,19 +71,21 @@ MPI_Status estado;
         }
     }    
     else { 
-/* Cada processo escravo recebe o início do espaço de busca */
-        while (estado.MPI_TAG != 99) {
+        /* Cada processo escravo recebe o início do espaço de busca */
+        while (1) {
             MPI_Recv(&inicio, 1, MPI_INT, raiz, MPI_ANY_TAG, MPI_COMM_WORLD, &estado);
-            if (estado.MPI_TAG != 99) {
-                for (i = inicio, cont=0; i < (inicio + TAMANHO) && i < n; i+=2) 
-		            if (primo(i) == 1)
-                        cont++;
-/* Envia a contagem parcial para o processo mestre */
-                MPI_Send(&cont, 1, MPI_INT, raiz, tag, MPI_COMM_WORLD);
-            } 
+            // Se Tag 99, sai do loop; Se não, faz as tarefas;
+            if (estado.MPI_TAG == 99)
+                break;
+            
+            for (i = inicio, cont=0; i < (inicio + TAMANHO) && i < n; i+=2) 
+                if (primo(i) == 1)
+                    cont++;
+            /* Envia a contagem parcial para o processo mestre */
+            MPI_Send(&cont, 1, MPI_INT, raiz, tag, MPI_COMM_WORLD); 
         } 
-/* Registra o tempo final de execução */
-    t_final = MPI_Wtime();
+        /* Registra o tempo final de execução */
+        t_final = MPI_Wtime();
     }
 	if (meu_ranque == 0) {
 		t_final = MPI_Wtime();
