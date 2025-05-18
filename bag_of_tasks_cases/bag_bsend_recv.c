@@ -17,6 +17,7 @@ int main(int argc, char *argv[]) { /* mpi_primosbag.c  */
     int cont = 0, total = 0;
     int i, n;
     int meu_ranque, num_procs, inicio, dest, raiz=0, tag=1, stop=0;
+    int tam_buffer;
     MPI_Status estado;
     /* Verifica o número de argumentos passados */
     if (argc < 2) {
@@ -36,69 +37,61 @@ int main(int argc, char *argv[]) { /* mpi_primosbag.c  */
     }
     /* Registra o tempo inicial de execução do programa */
     t_inicial = MPI_Wtime();
+    
     /* Envia pedaços com TAMANHO números para cada processo */
     if (meu_ranque == 0) {
         inicio = 3;
-        int enviados = 0;
+        int enviados = 0;                
         int n_escravos = num_procs - 1;
 
-        int *conts = malloc(n_escravos * sizeof(int));     // buffers para cada escravo
-        MPI_Request *requests = malloc(n_escravos * sizeof(MPI_Request));
-        MPI_Status status;
+        // Alocando Buffers baseado no tamanho de threads
+        int tamanho_msg;
+        MPI_Pack_size(1, MPI_INT, MPI_COMM_WORLD, &tamanho_msg);        
+        int tam_buffer = n_escravos * (tamanho_msg + MPI_BSEND_OVERHEAD);
+        void *buffer = malloc(tam_buffer);
+        MPI_Buffer_attach(buffer, tam_buffer);
 
         // Envia um primeiro bloco ou aviso de término a cada escravo
         for (dest = 1; dest < num_procs; dest++) {
             if (inicio < n) {
-                MPI_Send(&inicio, 1, MPI_INT, dest, 1, MPI_COMM_WORLD); // trabalho
+                MPI_Bsend(&inicio, 1, MPI_INT, dest, 1, MPI_COMM_WORLD); // trabalho
                 inicio += TAMANHO;
                 enviados++;
             } else {
                 int fim = 0;
-                MPI_Send(&fim, 1, MPI_INT, dest, 99, MPI_COMM_WORLD); // aviso de término
+                MPI_Bsend(&fim, 1, MPI_INT, dest, 99, MPI_COMM_WORLD); // aviso de término
             }
-        }
-
-        // Inicia MPI_Irecv pendentes para todos escravos que receberam trabalho
-        for (int i = 0; i < n_escravos; i++) {
-            conts[i] = 0;
-            MPI_Irecv(&conts[i], 1, MPI_INT, i + 1, MPI_ANY_TAG, MPI_COMM_WORLD, &requests[i]);
         }
 
         // Processa respostas e continua distribuindo enquanto houver trabalho
         while (enviados > 0) {
-            int index;
-            MPI_Waitany(n_escravos, requests, &index, &status); // Espera qualquer um terminar
-            int escravo = index + 1; // rank do escravo que enviou a mensagem
-            int cont = conts[index];  // quantidade de primos recebida
-
-            // Atualiza total
+            MPI_Recv(&cont, 1, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &estado);
             total += cont;
 
-            // Envia mais trabalho ou fim para esse escravo
-            if (inicio < n) {
-                MPI_Send(&inicio, 1, MPI_INT, escravo, 1, MPI_COMM_WORLD);
-                inicio += TAMANHO;
+            dest = estado.MPI_SOURCE;
 
-                // Reinicia Irecv para o próximo resultado desse escravo
-                MPI_Irecv(&conts[index], 1, MPI_INT, escravo, MPI_ANY_TAG, MPI_COMM_WORLD, &requests[index]);
+            if (inicio < n) {
+                MPI_Bsend(&inicio, 1, MPI_INT, dest, 1, MPI_COMM_WORLD);
+                inicio += TAMANHO;
             } else {
                 int fim = 0;
-                MPI_Send(&fim, 1, MPI_INT, escravo, 99, MPI_COMM_WORLD);
-                enviados--;
-                // Não reinicia Irecv para esse escravo pois acabou
+                MPI_Bsend(&fim, 1, MPI_INT, dest, 99, MPI_COMM_WORLD);
+                enviados--; // este processo foi encerrado
             }
         }
-
-        free(conts);
-        free(requests);
+        MPI_Buffer_detach(&buffer, &tam_buffer);
     }
     else {
+        // Alocando Buffer de envio de mensagem
+        int tamanho_msg;
+        MPI_Pack_size(1, MPI_INT, MPI_COMM_WORLD, &tamanho_msg);
+        int tam_buffer = tamanho_msg + MPI_BSEND_OVERHEAD; // só precisam enviar 1 msg por vez
+        void *buffer = malloc(tam_buffer);
+        MPI_Buffer_attach(buffer, tam_buffer);
+
         /* Cada processo escravo recebe o início do espaço de busca */
         while (1) {
-            MPI_Request req;
-            MPI_Irecv(&inicio, 1, MPI_INT, raiz, MPI_ANY_TAG, MPI_COMM_WORLD, &req);
-            MPI_Wait(&req, &estado);
-
+            MPI_Recv(&inicio, 1, MPI_INT, raiz, MPI_ANY_TAG, MPI_COMM_WORLD, &estado);
             // Se Tag 99, sai do loop; Se não, faz as tarefas;
             if (estado.MPI_TAG == 99)
                 break;
@@ -107,8 +100,9 @@ int main(int argc, char *argv[]) { /* mpi_primosbag.c  */
                 if (primo(i) == 1)
                     cont++;
             /* Envia a contagem parcial para o processo mestre */
-            MPI_Send(&cont, 1, MPI_INT, raiz, tag, MPI_COMM_WORLD);
+            MPI_Bsend(&cont, 1, MPI_INT, raiz, tag, MPI_COMM_WORLD);
         }
+        MPI_Buffer_detach(&buffer, &tam_buffer);
         /* Registra o tempo final de execução */
         t_final = MPI_Wtime();
     }

@@ -67,8 +67,8 @@ Tarefas a fazer:
         * MPI_Send + MPI_Irecv; [✓]
         * MPI_Isend + MPI_Recv; [✓]
         * MPI_Isend + MPI_Irecv; [✓]
-        * MPI_Rsend + MPI_Recv;
-        * MPI_Bsend + MPI_Recv;
+        * MPI_Rsend + MPI_Recv; [✓]
+        * MPI_Bsend + MPI_Recv; [✓]
         * MPI_Bsend + MPI_Irecv;
         * MPI_Ssend + MPI_Recv; [✓]
         * MPI_Ssend + MPI_Irecv; [✓]
