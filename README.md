@@ -69,7 +69,7 @@ Tarefas a fazer:
         * MPI_Isend + MPI_Irecv; [✓]
         * MPI_Rsend + MPI_Recv; [✓]
         * MPI_Bsend + MPI_Recv; [✓]
-        * MPI_Bsend + MPI_Irecv;
+        * MPI_Bsend + MPI_Irecv; [✓]
         * MPI_Ssend + MPI_Recv; [✓]
         * MPI_Ssend + MPI_Irecv; [✓]
 * Realizar os 19 casos testes, e coletar informações;[Thiago - fazendo]
