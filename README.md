@@ -72,7 +72,7 @@ Tarefas a fazer:
         * MPI_Bsend + MPI_Irecv;
         * MPI_Ssend + MPI_Recv;
         * MPI_Ssend + MPI_Irecv.
-* Realizar os 19 casos testes, e coletar informações;
+* Realizar os 19 casos testes, e coletar informações; [**Thiago - fazendo**]
 * Escrever relatório:
     - Introdução;
     - Metodologia;
