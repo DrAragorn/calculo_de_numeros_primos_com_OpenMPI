@@ -63,7 +63,7 @@ Tarefas a fazer:
         * MPI_Ssend + MPI_Recv; [✓]
         * MPI_Ssend + MPI_Irecv; [✓]
     - Programas com _bag os tasks_:
-        * MPI_Send + MPI_Recv;
+        * MPI_Send + MPI_Recv; [✓]
         * MPI_Send + MPI_Irecv;
         * MPI_Isend + MPI_Recv;
         * MPI_Isend + MPI_Irecv;
