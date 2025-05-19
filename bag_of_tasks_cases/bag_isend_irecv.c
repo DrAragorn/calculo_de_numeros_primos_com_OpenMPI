@@ -80,20 +80,28 @@ MPI_Status estado;
         while (enviados > 0) {
             int index;
             MPI_Waitany(n_escravos, requests_recepcao, &index, &status); // Espera qualquer um terminar
-            int escravo = index + 1; // rank do escravo que enviou a mensagem
-            int cont = conts[index];  // quantidade de primos recebida                        
-            
-            // Atualiza total
+
+            // if (index == MPI_UNDEFINED) {
+            //     fprintf(stderr, "MPI_Waitany retornou MPI_UNDEFINED. Isso indica que todos os Irecv já completaram.\n");
+            //     break;
+            // }
+
+            int escravo = index + 1;
+            int cont = conts[index];  // quantidade de primos recebida
             total += cont;
 
             if (inicio < n) {
-                buffer_envio[escravo] = inicio;  // copia do valor para cada envio
-                MPI_Isend(&buffer_envio[escravo], 1, MPI_INT, dest, 1, MPI_COMM_WORLD, &requests_envio[index]);
+                buffer_envio[index] = inicio;
+                MPI_Isend(&buffer_envio[index], 1, MPI_INT, escravo, 1, MPI_COMM_WORLD, &requests_envio[index]);
                 inicio += TAMANHO;
+
+                // Posta novo Irecv para escutar a próxima resposta desse escravo
+                MPI_Irecv(&conts[index], 1, MPI_INT, escravo, MPI_ANY_TAG, MPI_COMM_WORLD, &requests_recepcao[index]);
             } else {
-                buffer_envio[escravo] = 0;
-                MPI_Isend(&buffer_envio[escravo], 1, MPI_INT, dest, 99, MPI_COMM_WORLD, &requests_envio[escravo]);
-                enviados--; // este processo foi encerrado
+                buffer_envio[index] = 0;
+                MPI_Isend(&buffer_envio[index], 1, MPI_INT, escravo, 99, MPI_COMM_WORLD, &requests_envio[index]);
+
+                enviados--; // este escravo foi encerrado, não fazemos mais Irecv para ele
             }
         }
 
